@@ -1,0 +1,208 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row mt-4">
+        <div class="col-lg-9 col-12 mx-auto">
+            <div class="card card-body mt-4">
+                {{ form_start(filter_form, {'attributes': {'class': 'card card-body mt-4'}}) }}
+                <h6 class="mb-0">Filter form</h6>
+                <hr class="horizontal dark my-3">
+                <div class="row">
+                    <div class="col-6">
+                        {{ form_label(filter_form.symbol, 'Company Symbol', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(filter_form.symbol, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(filter_form.symbol) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_label(filter_form.email, 'Email', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(filter_form.email, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(filter_form.email) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        {{ form_label(filter_form.start_date, 'Start Date', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(filter_form.start_date, {'attr': {'class': 'form-control datepicker', 'placeholder': 'Please select date'}}) }}
+                        {{ form_errors(filter_form.start_date) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_label(filter_form.end_date, 'End Date', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(filter_form.end_date, {'attr': {'class': 'form-control datepicker', 'placeholder': 'Please select date'}}) }}
+                        {{ form_errors(filter_form.end_date) }}
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end mt-4">
+                    {{ form_widget(filter_form.submit, {'attr': {'class': 'btn bg-gradient-primary m-0 ms-2'}}) }}
+                </div>
+                {{ form_end(filter_form) }}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid py-4">
+    {% if data %}
+        {% if data.error %}
+            <div class="row mt-4">
+                <div class="col-lg-9 col-12 mx-auto">
+                    <div class="alert alert-danger font-weight-bold text-white" role="alert">
+                        <strong>{{ data.error }}</strong>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if data.quotes %}
+            {% set quoteDate = [] %}
+            {% set openPrice = [] %}
+            {% set closePrice = [] %}
+            <div class="row mt-4">
+                <div class="col-lg-9 col-12 mx-auto">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">{{ data.company_name }}</h5>
+                            <p class="text-sm mb-0">
+                                List of filtered quotes
+                            </p>
+                        </div>
+                        <div class="table-responsive">
+                            <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-height fixed-columns">
+                                <div class="dataTable-container">
+                                    <table class="table table-flush datatable-table" id="datatable-search">
+                                        <thead class="thead-light">
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Open</th>
+                                            <th>High</th>
+                                            <th>Low</th>
+                                            <th>Close</th>
+                                            <th>Volume</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for quote in data.quotes %}
+                                            {% set formattedDate = quote.date|date('Y-m-d') %}
+                                            {% set quoteDate = quoteDate|merge([formattedDate]) %}
+                                            {% set openPrice = openPrice|merge([quote.open]) %}
+                                            {% set closePrice = closePrice|merge([quote.close]) %}
+                                            <tr>
+                                                <td>{{ formattedDate }}</td>
+                                                <td>{{ quote.open }}</td>
+                                                <td>{{ quote.high }}</td>
+                                                <td>{{ quote.low }}</td>
+                                                <td>{{ quote.close }}</td>
+                                                <td>{{ quote.volume }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-lg-9 col-12 mx-auto">
+                    <div class="card mb-3">
+                        <div class="card-body p-3">
+                            <div class="chart">
+                                <canvas id="line-chart" class="chart-canvas" height="300px"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript">
+                // Line chart
+                var ctx1 = document.getElementById("line-chart").getContext("2d");
+
+                new Chart(ctx1, {
+                    type: "line",
+                    data: {
+                        labels: {{ quoteDate|json_encode|raw }},
+                        datasets: [
+                            {
+                                label: "Open Price",
+                                tension: 0.4,
+                                borderWidth: 0,
+                                pointRadius: 2,
+                                pointBackgroundColor: "#cb0c9f",
+                                borderColor: "#cb0c9f",
+                                borderWidth: 3,
+                                data: {{ openPrice|json_encode }},
+                                maxBarThickness: 6
+                            },
+                            {
+                                label: "Close Price",
+                                tension: 0.4,
+                                borderWidth: 0,
+                                pointRadius: 2,
+                                pointBackgroundColor: "#3A416F",
+                                borderColor: "#3A416F",
+                                borderWidth: 3,
+                                data: {{ closePrice|json_encode }},
+                                maxBarThickness: 6
+                            },
+                        ],
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false,
+                            }
+                        },
+                        interaction: {
+                            intersect: false,
+                            mode: 'index',
+                        },
+                        scales: {
+                            y: {
+                                grid: {
+                                    drawBorder: false,
+                                    display: true,
+                                    drawOnChartArea: true,
+                                    drawTicks: false,
+                                    borderDash: [5, 5]
+                                },
+                                ticks: {
+                                    display: true,
+                                    padding: 10,
+                                    color: '#b2b9bf',
+                                    font: {
+                                        size: 11,
+                                        family: "Open Sans",
+                                        style: 'normal',
+                                        lineHeight: 2
+                                    },
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    drawBorder: false,
+                                    display: true,
+                                    drawOnChartArea: true,
+                                    drawTicks: true,
+                                    borderDash: [5, 5]
+                                },
+                                ticks: {
+                                    display: true,
+                                    color: '#b2b9bf',
+                                    padding: 10,
+                                    font: {
+                                        size: 11,
+                                        family: "Open Sans",
+                                        style: 'normal',
+                                        lineHeight: 2
+                                    },
+                                }
+                            },
+                        },
+                    },
+                });
+            </script>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

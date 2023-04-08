@@ -1,0 +1,25 @@
+services:
+  XM\Infrastructure\Repository\RapidApiRepository:
+    class: XM\Infrastructure\Repository\RapidApiRepository
+    autowire: true
+    arguments:
+      $rapidUrl: '%app.rapidapi.url%'
+      $rapidKey: '%app.rapidapi.key%'
+
+  XM\Infrastructure\Repository\CompanyRepository:
+    class: XM\Infrastructure\Repository\CompanyRepository
+    autowire: true
+    arguments:
+      $url: '%app.companies.url%'
+
+  XM\Domain\Service\CompanySymbolsFileService:
+    class: XM\Domain\Service\CompanySymbolsFileService
+    autowire: true
+    arguments:
+      $expirationDays: '%app.file.expiration.days%'
+
+  XM\Domain\Service\MailService:
+    class: XM\Domain\Service\MailService
+    autowire: true
+    arguments:
+      $emailFrom: '%app.mail.from%'

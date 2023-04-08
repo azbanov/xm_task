@@ -1,0 +1,74 @@
+[
+	{
+		"Company Name": "iShares MSCI All Country Asia Information Technology Index Fund",
+		"Financial Status": "N",
+		"Market Category": "G",
+		"Round Lot Size": 100,
+		"Security Name": "iShares MSCI All Country Asia Information Technology Index Fund",
+		"Symbol": "AAIT",
+		"Test Issue": "N"
+	},
+	{
+		"Company Name": "American Airlines Group, Inc.",
+		"Financial Status": "N",
+		"Market Category": "Q",
+		"Round Lot Size": 100,
+		"Security Name": "American Airlines Group, Inc. - Common Stock",
+		"Symbol": "AAL",
+		"Test Issue": "N"
+	},
+	{
+		"Company Name": "Atlantic American Corporation",
+		"Financial Status": "N",
+		"Market Category": "G",
+		"Round Lot Size": 100,
+		"Security Name": "Atlantic American Corporation - Common Stock",
+		"Symbol": "AAME",
+		"Test Issue": "N"
+	},
+	{
+		"Company Name": "Applied Optoelectronics, Inc.",
+		"Financial Status": "N",
+		"Market Category": "G",
+		"Round Lot Size": 100,
+		"Security Name": "Applied Optoelectronics, Inc. - Common Stock",
+		"Symbol": "AAOI",
+		"Test Issue": "N"
+	},
+	{
+		"Company Name": "AAON, Inc.",
+		"Financial Status": "N",
+		"Market Category": "Q",
+		"Round Lot Size": 100,
+		"Security Name": "AAON, Inc. - Common Stock",
+		"Symbol": "AAON",
+		"Test Issue": "N"
+	},
+	{
+		"Company Name": "Apple Inc.",
+		"Financial Status": "N",
+		"Market Category": "Q",
+		"Round Lot Size": 100,
+		"Security Name": "Apple Inc. - Common Stock",
+		"Symbol": "AAPL",
+		"Test Issue": "N"
+	},
+	{
+		"Company Name": "Avalanche Biotechnologies, Inc.",
+		"Financial Status": "N",
+		"Market Category": "G",
+		"Round Lot Size": 100,
+		"Security Name": "Avalanche Biotechnologies, Inc. - Common Stock",
+		"Symbol": "AAVL",
+		"Test Issue": "N"
+	},
+	{
+		"Company Name": "Atlas Air Worldwide Holdings",
+		"Financial Status": "N",
+		"Market Category": "Q",
+		"Round Lot Size": 100,
+		"Security Name": "Atlas Air Worldwide Holdings - Common Stock",
+		"Symbol": "AAWW",
+		"Test Issue": "N"
+	}
+]

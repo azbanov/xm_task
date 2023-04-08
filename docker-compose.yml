@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  php:
+    container_name: xm-php
+    build:
+      context: .
+      dockerfile: ./docker/php-fpm/Dockerfile
+      target: dev
+    environment:
+      - APP_ENV
+    ports:
+      - '9000:9000'
+    volumes:
+      - ./:/app
+    networks:
+      - default
+
+  nginx:
+    container_name: xm-nginx
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    environment:
+      NGINX_PORT: 80
+      NGINX_LISTEN_OPTS: reuseport fastopen=4096
+      NGINX_FASTCGI_PASS: php:9000
+      NGINX_FASTCGI_KEEP_CONN: "on"
+      NGINX_ACCESS_LOG: /var/log/nginx/access.log
+      NGINX_ERROR_LOG: /var/log/nginx/error.log debug
+      NGINX_SERVER_NAME: xm.local
+    volumes:
+      - ./:/app
+      - ./var/nginx:/var/log/nginx
+    depends_on:
+      - php
+    ports:
+      - "8083:80"
+    networks:
+      - default
+
+networks:
+  default:

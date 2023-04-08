@@ -1,0 +1,6 @@
+parameters:
+  app.companies.url: '%env(string:COMPANIES_API_URL)%'
+  app.rapidapi.url: '%env(string:RAPIDAPI_URL)%'
+  app.rapidapi.key: '%env(string:RAPIDAPI_KEY)%'
+  app.file.expiration.days: '%env(string:COMPANY_SYMBOLS_FILE_EXP_TIME)%'
+  app.mail.from: '%env(MAIL_FROM)%'
